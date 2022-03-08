@@ -1,5 +1,4 @@
 import csv
-import pandas as pd
 
 def trata_cabecalho(filename):
 
@@ -31,9 +30,3 @@ def trata_cabecalho(filename):
 
     
 trata_cabecalho('AIR_CIA/ANAC_20211220_203627.csv')
-
-
-
-
-
-
