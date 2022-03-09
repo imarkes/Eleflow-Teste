@@ -44,18 +44,14 @@ class AerodromosCSV:
 
                 writer.writerow(
                     {'id': self.response[row]['id'], 'iata': self.response[row]['iata'],
-                     'icao': self.response[row]['icao'],
-                     'name': self.response[row]['name'],
+                     'icao': self.response[row]['icao'],'name': self.response[row]['name'],
                      'location': self.response[row]['location'], 'street_number': self.response[row]['street_number'],
-                     'street': self.response[row]['street'],
-                     'city': self.response[row]['city'], 'county': self.response[row]['county'],
-                     'state': self.response[row]['state'],
-                     'country_iso': self.response[row]['country_iso'],
-                     'country': self.response[row]['country'], 'postal_code': self.response[row]['postal_code'],
-                     'phone': self.response[row]['phone'],
-                     'latitude': self.response[row]['latitude'],
-                     'longitude': self.response[row]['longitude'], 'uct': self.response[row]['uct'],
-                     'website': self.response[row]['website']}
+                     'street': self.response[row]['street'],'city': self.response[row]['city'],
+                     'county': self.response[row]['county'],'state': self.response[row]['state'],
+                     'country_iso': self.response[row]['country_iso'],'country': self.response[row]['country'],
+                     'postal_code': self.response[row]['postal_code'],'phone': self.response[row]['phone'],
+                     'latitude': self.response[row]['latitude'],'longitude': self.response[row]['longitude'],
+                     'uct': self.response[row]['uct'],'website': self.response[row]['website']}
                 )
 
 
@@ -64,25 +60,3 @@ if __name__ == '__main__':
     a.get_codgos_icao()
     a.response_get_url()
     a.generate_csv()
-
-# ['id', 'iata', 'icao', 'name', 'location', 'street_number', 'street', 'city', 'county', 'state', 'country_iso',
-#  'country', 'postal_code', 'phone', 'latitude', 'longitude', 'uct', 'website']
-"""
-# self.response = [{'id': 633, 'iata': 'BEL', 'icao': 'SBBE', 'name': 'Val de Cans International Airport',
-            #                   'location': 'Belém, Pará, Brazil', 'street_number': 's/n',
-            #                   'street': 'Avenida Júlio César',
-            #                   'city': '',
-            #                   'county': 'Belém', 'state': 'Pará', 'country_iso': 'BR', 'country': 'Brazil',
-            #                   'postal_code': '66115-970', 'phone': '+55 91 3210-6000', 'latitude': -1.3820615,
-            #                   'longitude': -48.477524, 'uct': -180,
-            #                   'website': 'http://www4.infraero.gov.br/aeroportos/aeroporto-internacional-de-belem-val-de-cans-julio-cezar-ribeiro/'},
-            #                  {'id': 7941, 'iata': 'VCP', 'icao': 'SBKP',
-            #                   'name': 'Viracopos/Campinas International Airport',
-            #                   'location': 'São Paulo / Campinas, São Paulo, Brazil', 'street_number': 'km 66',
-            #                   'street': 'Rodovia Santos Dumont',
-            #                   'city': '', 'county': 'Campinas', 'state': 'São Paulo', 'country_iso': 'BR',
-            #                   'country': 'Brazil',
-            #                   'postal_code': '13055-900', 'phone': '+55 19 3725-5000', 'latitude': -23.008205,
-            #                   'longitude': -47.13757,
-            #                   'uct': -180, 'website': 'http://www.viracopos.com/'},
-            #                  ]"""
