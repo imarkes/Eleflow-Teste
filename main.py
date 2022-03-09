@@ -1,4 +1,9 @@
 import csv
+import glob
+import os
+
+path = 'AIR_CIA'
+csv_files = glob.glob(os.path.join(path, '*.csv'))
 
 def trata_cabecalho(filename):
 
@@ -24,9 +29,9 @@ def trata_cabecalho(filename):
                new_values.insert(2, values[1])
 
             new_dict = dict(zip(headers, new_values))    
+            print('-'*50)
+            print(new_dict)        
+            print('-'*50)
 
-            return new_dict 
-            
-
-    
-trata_cabecalho('AIR_CIA/ANAC_20211220_203627.csv')
+for files in csv_files:
+   trata_cabecalho(files)
