@@ -44,7 +44,7 @@ class FilesAIRCIA:
                 return new_dict
 
     def read_all_files_in_path(self):
-        """Read files."""
+        """Return generator object FilesAIRCIA."""
 
         for files in self.csv_files:
             yield self.normalize_readers_csv(files)

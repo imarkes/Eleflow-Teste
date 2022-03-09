@@ -34,9 +34,12 @@ class FilesVRA:
 
             for data in read_data:
                 headers = list(data)
-                new_header = [self.convert_words_for_snake_case(head) for head in headers]
-                return new_header
-            
+                new_header = [self.convert_words_for_snake_case(words) for words in headers]
+
+                values = list(data.values())
+                new_json = dict(zip(new_header, values))
+                return new_json
+
     def read_all_files_in_path(self):
         """Return generator object FilesVRA."""
         for files in self.vra_files_json:
