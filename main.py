@@ -20,8 +20,11 @@ def trata_cabecalho(filename):
             headers = new_header
 
             new_values = list(row.values())
-            values = new_values[1].split()       
-            new_values[1] = values[0]
+            values = new_values[1].split() 
+            if len(values)==0:
+               new_values[1] = None
+            else:
+               new_values[1] = values[0]
  
             if len(values) <= 1:
                new_values.insert(2, None)
