@@ -1,13 +1,11 @@
 import glob
 import json
-from msilib.schema import Patch
 import os
 import re
 
-path = 'VRA'
 
 class FilesVRA:
-    def __init__(self, path) -> None:
+    def __init__(self, path='VRA') -> None:
         self.path = path
         self.vra_files_json = glob.glob(os.path.join(path, '*.json'))
 
@@ -47,5 +45,5 @@ class FilesVRA:
 
 
 if __name__ == '__main__':
-    a = FilesVRA(path)
+    a = FilesVRA()
     print(list(a.read_all_files_in_path()))
