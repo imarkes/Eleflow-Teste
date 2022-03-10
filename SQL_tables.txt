@@ -1,59 +1,27 @@
-CREATE TABLE air_cia(
-    cod SMALLINT PRIMARY KEY UNIQUE,
-    razão_social VARCHAR(150),
-    icao VARCHAR(3),
-    iata VARCHAR(2),
-    cnpj VARCHAR(18),
-    atividades_aéreas VARCHAR(30),
-    endereço_sede VARCHAR(255),
-    telefone VARCHAR(70),
-    email VARCHAR(50),
-    decisão_operacional VARCHAR(20),
-    data_decisão_operacional DATE,
-    validade_operacional DATE,
-    add_data DATETIME default CURRENT_TIMESTAMP
-);
+Para cada companhia aérea trazer a rota mais utilizada com as seguintes informações:
+    - Razão social da companhia aérea
+    - Nome Aeroporto de Origem
+    - ICAO do aeroporto de origem
+    - Estado/UF do aeroporto de origem
+    - Nome do Aeroporto de Destino
+    - ICAO do Aeroporto de destino
+    - Estado/UF do aeroporto de destino
+  - Para cada aeroporto trazer a companhia aérea com maior atuação no ano com as seguintes informações:
+    - Nome do Aeroporto
+    - ICAO do Aeroporto
+    - Razão social da Companhia Aérea
+    - Quantidade de Rotas à partir daquele aeroporto
+    - Quantidade de Rotas com destino àquele aeroporto
+    - Quantidade total de pousos e decolagens naquele aeroporto
 
-SELECT * FROM air_cia
 
-CREATE TABLE vra(
-    cod SMALLINT PRIMARY KEY UNIQUE,
-    icaoempresa_aérea VARCHAR(3),
-    número_voo VARCHAR(9),
-    código_autorização VARCHAR(2),
-    código_tipo_linha VARCHAR(2),
-    icaoaeródromo_origem VARCHAR(5),
-    icaoaeródromo_destino VARCHAR(5),
-    partida_prevista DATETIME,
-    partida_real DATETIME,
-    chegada_prevista DATETIME,
-    chegada_real DATETIME,
-    situação_voo VARCHAR(10),
-    código_justificativa VARCHAR(3),
-    add_data DATETIME default CURRENT_TIMESTAMP
 
-);
-SELECT * FROM vra
+select a.name, a.icao, a.state, v.icaoaerodromo_origem, v.icaoaerodromo_destino,
+FROM aerodramos a
+left join vra v on a.icao = v.icaoaerodromo_origem
+lef join vra v on a.icao = v.icaoaerodromo_destino
+lef join vra v on a.icao = v.icaoempresa_aerea
+limit  10;
 
-CREATE TABLE aerodromos(
-    id SMALLINT PRIMARY KEY UNIQUE,
-    iata VARCHAR(4),
-    icao VARCHAR(4),
-    name VARCHAR(255),
-    location VARCHAR(255),
-    street_number INT,
-    street VARCHAR(150),
-    city VARCHAR(150),
-    county VARCHAR(100),
-    state VARCHAR(100),
-    country_iso VARCHAR(3),
-    country VARCHAR(100),
-    postal_code VARCHAR(9),
-    phone VARCHAR(20),
-    latitude DECIMAL,
-    longitude DECIMAL,
-    uct INT,
-    website VARCHAR(255)
-
-);
-SELECT * FROM aerodromos
+SELECT r.name, r.icao, a.razao_social, count(r.name)
+FROM
