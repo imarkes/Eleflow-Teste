@@ -6,6 +6,7 @@ ingestão de dados e preparar algumas tabelas para os cientistas de dados e anal
 #### Desenvolvimento do Pipeline:
 - O arquivo `main.py` executará o ETL dos dados. Atráves dele será executado os objetivos 1, 2 e 3.
 - O Arquivo `database.py` persite os dados em banco de dados SQLite3.
+- Execute a consulta SQL do arquivo `cods_sql.txt` no qyerytools para obter informações do passo 4.
 - A DAG será utilizada para execução programada da tarefa.
 #### Ferramentas utilizadas:
 - Python 

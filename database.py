@@ -174,11 +174,11 @@ class TableAerodramos(Engine):
 
 if __name__ == '__main__':
     ...
-    air_cia = TableAirCia()
-    air_cia.read_csv('FilesAirCia/air_cia.csv')
-
-    vra = TableVRA()
-    vra.read_json('FilesVRA/vra.json')
+    # air_cia = TableAirCia()
+    # air_cia.read_csv('FilesAirCia/air_cia.csv')
+    #
+    # vra = TableVRA()
+    # vra.read_json('FilesVRA/vra.json')
 
     #aerodramos = TableAerodramos()
     #aerodramos.read_csv('Aerodromos/aerodromos.csv')
