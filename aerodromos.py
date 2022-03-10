@@ -44,6 +44,12 @@ class AerodromosCSV:
 
                 # valida o codgo icao.
                 if not 'error' in resp:
+
+                    # trata o name
+                    resp['name'] = str(resp['name']).replace("'", '')
+
+                    # trata street
+                    resp['street'] = str(resp['street']).replace("'", '')
                     self.response.append(resp)
 
             return self.response
@@ -88,5 +94,9 @@ class AerodromosCSV:
 
 
 if __name__ == '__main__':
-    ...
+    icao = AerodromosCSV()
+    icao.get_codgos_icao('FilesVRA/vra.json')
+    icao.response_get_url()
+    icao.create_dir_new_files('Aerodromos')
+    icao.generate_csv()
 

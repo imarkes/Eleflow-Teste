@@ -16,7 +16,7 @@ class TableAirCia(Engine):
 
     def table_air_cia(self):
         self.cursor.execute(
-            """CREATE TABLE TABLE IF NOT EXISTS air_cia(
+            """CREATE TABLE IF NOT EXISTS air_cia(
             razao_social VARCHAR(150), 
             icao VARCHAR(3),
             iata VARCHAR(2),
@@ -125,19 +125,19 @@ class TableAerodramos(Engine):
         self.cursor.execute(
             """CREATE TABLE IF NOT EXISTS aerodramos(
             id INT PRIMARY KEY, 
-            iata VARCHAR(4),
-            icao VARCHAR(4) , 
+            iata VARCHAR(5),
+            icao VARCHAR(5) , 
             name VARCHAR(255),
             location VARCHAR(255),
-            street_number VARCHAR(10),
+            street_number VARCHAR(15),
             street VARCHAR(150),
             city VARCHAR(150),
-            county VARCHAR(100),
-            state VARCHAR(100),
-            country_iso VARCHAR(3),
-            country VARCHAR(100),
-            postal_code VARCHAR(15),
-            phone VARCHAR(20),
+            county VARCHAR(150),
+            state VARCHAR(1150),
+            country_iso VARCHAR(5),
+            country VARCHAR(150),
+            postal_code VARCHAR(20),
+            phone VARCHAR(25),
             latitude DECIMAL,
             longitude DECIMAL,
             uct INT,
@@ -174,13 +174,13 @@ class TableAerodramos(Engine):
 
 if __name__ == '__main__':
     ...
-    # air_cia = TableAirCia()
-    # air_cia.read_csv('FilesAirCia/air_cia.csv')
+    air_cia = TableAirCia()
+    air_cia.read_csv('FilesAirCia/air_cia.csv')
 
-    # vra = TableVRA()
-    # vra.read_json('FilesVRA/vra.json')
+    vra = TableVRA()
+    vra.read_json('FilesVRA/vra.json')
 
-    aerodramos = TableAerodramos()
-    aerodramos.read_csv('Aerodromos/aerodromos.csv')
+    #aerodramos = TableAerodramos()
+    #aerodramos.read_csv('Aerodromos/aerodromos.csv')
 
     #Engine().cursor.execute('drop table aerodramos ')

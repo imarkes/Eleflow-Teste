@@ -3,11 +3,11 @@
 A Empresa irá atender um novo cliente, a _BigData Airlines_, e você será o engenheiro de dados responsável por fazer a
 ingestão de dados e preparar algumas tabelas para os cientistas de dados e analistas de dados.
 
-#### Desenvolvimento:
+#### Desenvolvimento do Pipeline:
 - O arquivo `main.py` executará o ETL dos dados. Atráves dele será executado os objetivos 1, 2 e 3.
 - O Arquivo `database.py` persite os dados em banco de dados SQLite3.
-- A DAG será utilizada execução programada da tarefa.
-#### Ferramentas para desenvolvimento:
+- A DAG será utilizada para execução programada da tarefa.
+#### Ferramentas utilizadas:
 - Python 
 - Docker
 - Airflow
