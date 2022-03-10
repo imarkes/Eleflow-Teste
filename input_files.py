@@ -2,16 +2,20 @@ import csv
 import json
 import sqlite3
 
-conn = sqlite3.connect('eleflow')  # Cria database.
-cursor = conn.cursor()
 
-
-class TableAirCia:
+class Engine:
     def __init__(self):
+        self.conn = sqlite3.connect('eleflow')  # Cria database.
+        self.cursor = self.conn.cursor()
+
+
+class TableAirCia(Engine):
+    def __init__(self):
+        Engine.__init__(self)
         self.table_air_cia()
 
     def table_air_cia(self):
-        cursor.execute(
+        self.cursor.execute(
             """CREATE TABLE TABLE IF NOT EXISTS air_cia(
             razao_social VARCHAR(150), 
             icao VARCHAR(3),
@@ -30,11 +34,11 @@ class TableAirCia:
 
     def values_air_cia(self, *args):
 
-        cursor.execute(f"""INSERT INTO air_cia(razao_social,icao,iata,cnpj,atividades_aereas,endereco_sede,telefone,
+        self.cursor.execute(f"""INSERT INTO air_cia(razao_social,icao,iata,cnpj,atividades_aereas,endereco_sede,telefone,
             email, decisao_operacional,data_decisao_operacional,validade_operacional) VALUES('{args[0]}','{args[1]}','{args[2]}','{args[3]}',
             '{args[4]}','{args[5]}','{args[6]}','{args[7]}','{args[8]}','{args[9]}','{args[10]}'); """
-                       )
-        conn.commit()
+                            )
+        self.conn.commit()
         print('Dados inseridos com sucesso.')
 
     def read_csv(self, filename):
@@ -57,12 +61,13 @@ class TableAirCia:
             return e
 
 
-class TableVRA:
+class TableVRA(Engine):
     def __init__(self):
+        Engine.__init__(self)
         self.table_vra()
 
     def table_vra(self):
-        cursor.execute(
+        self.cursor.execute(
             """CREATE TABLE IF NOT EXISTS vra(
             icaoempresa_aerea VARCHAR(3) ,
             numero_voo VARCHAR(9),
@@ -81,13 +86,13 @@ class TableVRA:
         )
 
     def save_values_vra(self, *args):
-        print(args)
-        cursor.execute(f"""INSERT INTO vra(icaoempresa_aerea,numero_voo,codigo_autorizacao,codigo_tipo_linha,
+
+        self.cursor.execute(f"""INSERT INTO vra(icaoempresa_aerea,numero_voo,codigo_autorizacao,codigo_tipo_linha,
         icaoaerodromo_origem,icaoaerodromo_destino,partida_prevista, partida_real, chegada_prevista,chegada_real,
         situacao_voo, codigo_justificativa) VALUES('{args[0]}','{args[1]}','{args[2]}','{args[3]}', 
             '{args[4]}','{args[5]}','{args[6]}','{args[7]}','{args[8]}','{args[9]}','{args[10]}', '{args[10]}'); """
-                       )
-        conn.commit()
+                            )
+        self.conn.commit()
         print('Dados inseridos com sucesso.')
 
     def read_json(self, filename):
@@ -111,19 +116,20 @@ class TableVRA:
             return e
 
 
-class tableAerodramos:
+class TableAerodramos(Engine):
     def __init__(self):
+        Engine.__init__(self)
         self.table_aerodramos()
 
     def table_aerodramos(self):
-        cursor.execute(
+        self.cursor.execute(
             """CREATE TABLE IF NOT EXISTS aerodramos(
             id INT PRIMARY KEY, 
             iata VARCHAR(4),
             icao VARCHAR(4) , 
             name VARCHAR(255),
             location VARCHAR(255),
-            street_number INT,
+            street_number VARCHAR(10),
             street VARCHAR(150),
             city VARCHAR(150),
             county VARCHAR(100),
@@ -139,13 +145,13 @@ class tableAerodramos:
         );""")
 
     def values_aerodramos(self, *args):
-
-        cursor.execute(f"""INSERT INTO aerodramos(id,iata,icao,name,location,street_number,street,city,county,state,
+        self.cursor.execute(f"""INSERT INTO aerodramos(id,iata,icao,name,location,street_number,street,city,county,state,
         country_iso,country,postal_code,phone,latitude,longitude,uct,website) 
-        VALUES('{args[0]}','{args[1]}','{args[2]}','{args[3]}',  '{args[4]}','{args[5]}','{args[6]}','{args[7]}',
-        '{args[8]}','{args[9]}','{args[10]}','{args[10]}',{args[10]},{args[10]},{args[10]},'{args[10]}',); """
-                       )
-        conn.commit()
+        VALUES({args[0]},'{args[1]}','{args[2]}','{args[3]}','{args[4]}','{args[5]}','{args[6]}','{args[7]}',
+        '{args[8]}','{args[9]}','{args[10]}','{args[11]}','{args[12]}','{args[13]}',{args[14]},{args[15]},{args[16]},
+        '{args[17]}'); """)
+
+        self.conn.commit()
         print('Dados inseridos com sucesso.')
 
     def read_csv(self, filename):
@@ -154,6 +160,7 @@ class tableAerodramos:
             data_csv = csv.DictReader(open(filename, encoding='utf-8'))
 
             for row in data_csv:
+
                 self.values_aerodramos(row['id'], row['iata'], row['name'], row['location'],
                                        row['street_number'], row['street'], row['city'], row['county'],
                                        row['state'], row['country_iso'], row['country'], row['postal_code'],
@@ -174,3 +181,6 @@ if __name__ == '__main__':
 
     # vra = TableVRA()
     # vra.read_json('FilesVRA/vra.json')
+
+    aerodramos = TableAerodramos()
+    aerodramos.read_csv('Aerodromos/aerodromos.csv')
