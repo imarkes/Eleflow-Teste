@@ -34,11 +34,12 @@ ingestão de dados e preparar algumas tabelas para os cientistas de dados e anal
         - Quantidade de Rotas com destino àquele aeroporto
         - Quantidade total de pousos e decolagens naquele aeroporto
 
-#### Extras:
-
-- Descrever qual estratégia você usaria para ingerir estes dados de forma incremental caso precise capturar esses dados
-  a cada mes?
-- Justifique em cada etapa sobre a escalabilidade da tecnologia utilizada.
-- Justifique as camadas utilizadas durante o processo de ingestão até a disponibilização dos dados.
+#### Rodando o projeto localmente:
+- Se for rodar localmente, cria a variavel: `python -m venv venv`
+- Ative a variavel de ambiente: `cd venv\scripts\activate.bat`
+- Execute o comando: `python main.py`
+#### Rodando o projeto via docker:
+- Para rodar via docker: `docker build -t nome_da_imagem`
+- Execute a imagem docker `docker run --name nome_container -p 8080:8080 nome_imagem`
 
 

@@ -136,7 +136,7 @@ class TableAerodramos(Engine):
             state VARCHAR(100),
             country_iso VARCHAR(3),
             country VARCHAR(100),
-            postal_code VARCHAR(9),
+            postal_code VARCHAR(15),
             phone VARCHAR(20),
             latitude DECIMAL,
             longitude DECIMAL,
@@ -145,13 +145,11 @@ class TableAerodramos(Engine):
         );""")
 
     def values_aerodramos(self, *args):
-        print(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[9], args[10], args[11],
-              args[12], args[13], args[14], args[15], args[16], args[17])
-        self.cursor.execute(f"""INSERT INTO aerodramos(id,iata,icao,name,location,street_number,street,city,county,state,
-        country_iso,country,postal_code,phone,latitude,longitude,uct,website) 
-        VALUES({args[0]},'{args[1]}','{args[2]}','{args[3]}','{args[4]}','{args[5]}','{args[6]}','{args[7]}',
-        '{args[8]}','{args[9]}','{args[10]}','{args[11]}','{args[12]}','{args[13]}','{args[14]}','{args[15]}','{args[16]}','{args[17]}');
-            """)
+        self.cursor.execute(f"""INSERT INTO aerodramos(id, iata, icao, name, location, street_number, street, city, 
+        county, state, country_iso, country, postal_code, phone, latitude, longitude, uct, website) VALUES({args[0]},
+        '{args[1]}','{args[2]}','{args[3]}','{args[4]}','{args[5]}','{args[6]}','{args[7]}', 
+                '{args[8]}','{args[9]}','{args[10]}','{args[11]}','{args[12]}','{args[13]}',{args[14]},{args[15]},
+                {args[16]},'{args[17]}')""")
 
         self.conn.commit()
         print('Dados inseridos com sucesso.')
@@ -162,12 +160,11 @@ class TableAerodramos(Engine):
             data_csv = csv.DictReader(open(filename, encoding='utf-8'))
 
             for row in data_csv:
-                self.values_aerodramos(row['id'], row['iata'], row['name'], row['location'],
+                self.values_aerodramos(row['id'], row['iata'], row['icao'], row['name'], row['location'],
                                        row['street_number'], row['street'], row['city'], row['county'],
                                        row['state'], row['country_iso'], row['country'], row['postal_code'],
-                                       row['phone'], row['latitude'], row['longitude'], row['uct'], row['website'],
+                                       row['phone'], row['latitude'], row['longitude'], row['uct'], row['website']
                                        )
-
                 print('Success')
 
         except ConnectionError as e:
@@ -185,3 +182,5 @@ if __name__ == '__main__':
 
     aerodramos = TableAerodramos()
     aerodramos.read_csv('Aerodromos/aerodromos.csv')
+
+    #Engine().cursor.execute('drop table aerodramos ')
