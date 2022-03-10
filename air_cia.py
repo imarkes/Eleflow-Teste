@@ -5,8 +5,9 @@ import os
 
 class FilesAIRCIA:
     def __init__(self, path='AIR_CIA') -> None:
+        self.new_dict = []
         self.path = path
-        self.csv_files = glob.glob(os.path.join(path, '*.csv'))
+        self.path_csv_files = glob.glob(os.path.join(path, '*.csv'))
 
     def normalize_readers_csv(self, filename):
         """
@@ -38,17 +39,41 @@ class FilesAIRCIA:
                 else:
                     new_values.insert(2, values[1])
 
-                new_dict = dict(zip(headers, new_values))
+                new = dict(zip(headers, new_values))
 
-                return new_dict
+                self.new_dict.append(new)
+                return self.new_dict
 
     def read_all_files_in_path(self):
         """Return generator object FilesAIRCIA."""
+        print(self.new_dict)
+        for files in self.path_csv_files:
+            self.normalize_readers_csv(files)
 
-        for files in self.csv_files:
-            yield self.normalize_readers_csv(files)
+    def generate_csv_air_cia(self):
+        """Generate CSV File."""
+        with open('air_cia.csv', mode='w', newline='', encoding='utf-8') as file:
+            fieldnames = list(self.new_dict[0].keys())
+
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+
+            for row in self.new_dict:
+
+                writer.writerow({
+                    'razão_social': row['razão_social'], 'icao': row['icao'],
+                    'iata': row['iata'], 'cnpj': row['cnpj'], 'atividades_aéreas': row['atividades_aéreas'],
+                    'endereço_sede': row['endereço_sede'], 'telefone': row['telefone'], 'e-mail': row['e-mail'],
+                    'decisão_operacional': row['decisão_operacional'],
+                    'data_decisão_operacional': row['data_decisão_operacional'],
+                    'validade_operacional': row['validade_operacional']
+                })
 
 
 if __name__ == '__main__':
     a = FilesAIRCIA()
-    print(list(a.read_all_files_in_path()))
+    a.read_all_files_in_path()
+    a.generate_csv_air_cia()
+
+# 'razão_social':, 'icao':, 'iata':, 'cnpj':, 'atividades_aéreas':, 'endereço_sede':, 'telefone':, 'e-mail':,
+# 'decisão_operacional':, 'data_decisão_operacional':, 'validade_operacional':
