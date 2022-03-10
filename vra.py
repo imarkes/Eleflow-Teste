@@ -1,3 +1,4 @@
+import csv
 import glob
 import json
 import os
@@ -6,6 +7,7 @@ import re
 
 class FilesVRA:
     def __init__(self, path='VRA') -> None:
+        self.all_files = None
         self.path = path
         self.vra_files_json = glob.glob(os.path.join(path, '*.json'))
 
@@ -36,14 +38,21 @@ class FilesVRA:
 
                 values = list(data.values())
                 new_json = dict(zip(new_header, values))
-                return new_json
+                yield new_json
 
     def read_all_files_in_path(self):
         """Return generator object FilesVRA."""
         for files in self.vra_files_json:
-            yield self.normalizer_headers(files)
+            self.all_files = list(self.normalizer_headers(files))
+
+    def generate_file_json(self):
+        """Generate json file."""
+        with open('vra.json', mode='w', encoding='utf-8') as outfile:
+            json.dump(self.all_files, outfile, ensure_ascii=False, indent=4)
 
 
 if __name__ == '__main__':
     a = FilesVRA()
-    print(list(a.read_all_files_in_path()))
+    a.read_all_files_in_path()
+    a.generate_file_json()
+
