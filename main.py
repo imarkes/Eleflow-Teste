@@ -1,6 +1,6 @@
-from data_engineer_test.aerodromos import AerodromosCSV
-from data_engineer_test.air_cia import FilesAIRCIA
-from data_engineer_test.vra import FilesVRA
+from aerodromos import AerodromosCSV
+from air_cia import FilesAIRCIA
+from vra import FilesVRA
 
 vra = FilesVRA()
 vra.read_all_files_in_path()

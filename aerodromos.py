@@ -3,7 +3,7 @@ import json
 import os
 
 import requests
-from data_engineer_test.vra import FilesVRA
+from vra import FilesVRA
 
 
 class AerodromosCSV:

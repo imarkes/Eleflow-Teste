@@ -16,4 +16,5 @@ RUN apk add --no-cache postgresql-libs \
 
 COPY . .
 
-CMD['python3', 'main.py']
+CMD ["python", "main.py"]
+
