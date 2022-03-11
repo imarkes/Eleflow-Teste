@@ -1,56 +1,54 @@
-from datetime import timedelta
-import airflow
+from datetime import datetime
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
+from airflow.operators.python import PythonOperator
+from airflow.providers.sqlite.operators.sqlite import SqliteOperator 
+from database import TableAerodramos, TableAirCia, TableVRA
+
+def cria_databases():
+    air_cia = TableAirCia()
+    air_cia.read_csv('FilesAirCia/air_cia.csv')
+    
+    vra = TableVRA()
+    vra.read_json('FilesVRA/vra.json')
+
+    aerodramos = TableAerodramos()
+    aerodramos.read_csv('Aerodromos/aerodromos.csv')
 
 
-default_args = {
-    'owner': 'airflow',
-    'depends_on_past': False,
-    'start_date': airflow.utils.dates.days_ago(2),
-    'retry_delay': timedelta(minutes=5),
+with DAG ('eleflow', 
+    start_date=datetime(2022,3,11),
+    schedule_interval= '1 * * * *',  # execução a cada minuto.
+    catchup=False, 
+    ) as dag:
+ 
 
-}
+    cria_databases = PythonOperator(
+        task_id='consulta_dados',
+        python_callable=cria_databases,
+    )
 
-dag = DAG(
-    'etl_airplot',
-    default_args=default_args,
-    description='Agendamento de ETL dados eleflow',
-    schedule_interval=timedelta(days=1),
-)
+    consulta_dados = SqliteOperator(
+        sql= """SELECT r.razao_social,
+                a.name,
+                a.state,
+                a.icao,
+                a.country_iso,
+                v.icaoaerodromo_origem,
+                v.icaoaerodromo_destino,
+                v.icaoempresa_aerea,
+                CASE
+                    WHEN a.icao = v.icaoaerodromo_destino THEN a.name
+                    WHEN a.icao = v.icaoaerodromo_origem THEN a.name
+                    ELSE a.icao
+                END 'aeroportos'
+                FROM aerodramos a
+                LEFT JOIN vra v on a.icao = v.icaoaerodromo_origem or v.icaoaerodromo_destino or v.icaoempresa_aerea
+                LEFT JOIN air_cia r on v.icaoempresa_aerea = r.icao
+                GROUP BY r.razao_social
+                LIMIT 10;""", 
+        sqlite_conn_id='eleflow' # database.
+    )
 
-t1 = BashOperator(
-    task_id='print_date',
-    bash_command='date',
-    dag=dag,
-)
-
-
-dag.doc_md = __doc__
-
-t2 = BashOperator(
-    task_id='sleep',
-    depends_on_past=False,
-    bash_command='sleep 5',
-    dag=dag,
-)
-
-templated_command = """
-{% for i in range(5) %}
-    echo "{{ ds }}"
-    echo "{{ macros.ds_add(ds, 7)}}"
-    echo "{{ params.my_param }}"
-{% endfor %}
-"""
-
-t3 = BashOperator(
-    task_id='templated',
-    depends_on_past=False,
-    bash_command=templated_command,
-    params={'my_param': 'Parameter I passed in'},
-    dag=dag,
-)
-
-
-t1 >> [t2, t3]
-
+    # Fluxo de execução das tasks
+    cria_databases >> consulta_dados
