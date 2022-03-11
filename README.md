@@ -22,8 +22,11 @@ ingestão de dados e preparar algumas tabelas para os cientistas de dados e anal
 #### Rodando o projeto via docker:
 - Para rodar via docker: `docker build -t nome_da_imagem`
 - Execute a imagem docker `docker run --name nome_container -p 8080:8080 nome_imagem`
+### Verificar o Schedule
+- Execute a instalação do Airflow
+- https://airflow.apache.org/docs/apache-airflow/stable/start/local.html
 
-### Objetivos:
+### Objetivos do Teste:
 
 #### 1- Carregar os dados de VRA
     - Normalizar o cabeçalho para snake case
