@@ -1,6 +1,6 @@
-from data_engineer_test.aerodromos import AerodromosCSV
-from data_engineer_test.air_cia import FilesAIRCIA
-from data_engineer_test.vra import FilesVRA
+from gerators.aerodromos import AerodromosCSV
+from gerators.air_cia import FilesAIRCIA
+from gerators.vra import FilesVRA
 
 
 vra = FilesVRA()
@@ -18,3 +18,5 @@ icao.get_codgos_icao('FilesVRA/vra.json')
 icao.response_get_url()
 icao.create_dir_new_files('Aerodromos')
 icao.generate_csv()
+
+

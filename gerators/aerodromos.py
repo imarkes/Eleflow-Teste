@@ -4,8 +4,7 @@ import os
 
 import requests
 
-from vra import FilesVRA
-
+from gerators.vra import FilesVRA
 
 
 class AerodromosCSV:
@@ -102,4 +101,5 @@ if __name__ == '__main__':
     # icao.response_get_url()
     # icao.create_dir_new_files('Aerodromos')
     # icao.generate_csv()
+
 

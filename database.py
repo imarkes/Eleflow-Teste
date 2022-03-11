@@ -184,3 +184,4 @@ if __name__ == '__main__':
     #aerodramos.read_csv('Aerodromos/aerodromos.csv')
 
     #Engine().cursor.execute('drop table aerodramos ')
+
