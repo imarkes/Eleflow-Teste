@@ -3,7 +3,9 @@ import json
 import os
 
 import requests
+
 from vra import FilesVRA
+
 
 
 class AerodromosCSV:
@@ -94,9 +96,10 @@ class AerodromosCSV:
 
 
 if __name__ == '__main__':
-    icao = AerodromosCSV()
-    icao.get_codgos_icao('FilesVRA/vra.json')
-    icao.response_get_url()
-    icao.create_dir_new_files('Aerodromos')
-    icao.generate_csv()
+    ...
+    # icao = AerodromosCSV()
+    # icao.get_codgos_icao('FilesVRA/vra.json')
+    # icao.response_get_url()
+    # icao.create_dir_new_files('Aerodromos')
+    # icao.generate_csv()
 
